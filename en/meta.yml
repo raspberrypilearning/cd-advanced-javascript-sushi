@@ -12,5 +12,12 @@ technologies: "electronics, sense-hat, physical computing, html/css, scratch, py
 site_areas:
 steps:
   - title: Introduction
-  - title: What you will need
-  - title: Step title
+  - title: Getting Setup
+  - title: Getting Pokémon
+  - title: What is JSON?
+  - title: Making a Pokémon
+  - title: Saving your Pokémon
+  - title: Displaying Pokémon
+  - title: Filtering Pokémon
+  - title: Searching Pokémon
+  - title: What next?
