@@ -18,8 +18,17 @@ You should only need to make changes to two functions: `getPokemon` and `fetchMa
 --- /hints ---
 
 
-* Speed up increasing the list size. Right now every Pokémon is re-loaded to `localStorage` if you add one. How can you be smarter about that?
+### Make the filters work together
+The two filters don't work together at the moment. So, for example, if you filter to 'flying' and search for 'char' you find all three 'char' Pokémon instead of just Charizard, the only one with the 'flying' type. This is a tricky problem to solve (it took me a few tries!) and it might help to work out the different conditions on a piece of paper first.
 
-* Right now, the two filters don't work together. So if you filter to “flying” and search for “char” you find all three “char” Pokémon instead of just Charizard, the only one with the “flying” type. Fix that!
-
-* Try adding more filters, using the **JSON** viewer from the “What is JSON?” card to pick some interesting values and creating some filters based on them like on the “Filtering Pokémon” card.
+--- hints ---
+--- hint ---
+You'll need to change both of the filter functions.
+--- /hint ---
+--- hint ---
+You'll need to move bits of each function into the other: You'll have to check the type filter in the text search, and the text value in the type search.
+--- /hint ---
+--- hint ---
+You'll need to add a bunch of extra `if` statements inside your existing `if` statements, to check whether things left visible by the first filter are sill left visible by the second.
+--- /hint ---
+--- /hints ---
