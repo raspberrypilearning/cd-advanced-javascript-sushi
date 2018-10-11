@@ -1,96 +1,37 @@
-## Getting Pokémon
+## What is JSON?
 
-If you're going to display information about Pokémon, you're going to need some to display! Luckily, some nice people have put together an API you can use to ask for that information. There are APIs for everything from Google to Instagram to YouTube to the weather! That's where you're going to start: Asking for the information. 
+As proimsed, this step will look at **JSON**. You won't be writing any actual code here, just learning about this very important part of JavaScript. If you've already done the Intermediate JavaScript Sushi, you've worked with JSON before and even created some.
 
-+ Before you can even do that, though, you're going to need somewhere to put it once you've got it! In `script.js` create three empty arrays, like this:
-
-```JavaScript
-  var pokemonInfo = []
-  var pokePics = []
-  var pokemon
-```
-
-+ Next, you need to create a function that can `fetch` info about a Pokémon from PokeAPI. You do this by requesting a **URL** (web address) and storing the **response**. In the case of PokeAPI, the **URL** is `https://pokeapi.co/api/v2/pokemon/[id]/`, where `[id]` is the id number of the Pokémon you want. Pikachu, for example, is number 25. Here's a function that does this:
+So let's look at some from the Intermediate cards first:
 
 ```JavaScript
-  async function fetchPokemon(pokemonId) {  
-    var response = await fetch('https://pokeapi.co/api/v2/pokemon/'+pokemonId.toString()+'/')
-    var poke = await response.json()
-    pokemonInfo.push(poke)
-  }
+var toDos =   [
+                {
+                  text: "My",
+                  completed: false
+                },
+                {
+                  text: "to-do",
+                  completed: true
+                },
+                {
+                  text: "list",
+                  completed: true
+                }
+              ]
 ```
 
-This function looks relatively normal, taking `pokemonId` as a parameter, fetching the **URL**, taking the response and `push`-ing it into `pokemonInfo`. However, look at a couple of unusual things here:
-  1. Instead of `function`, this is declared as `async function`
-  2. Twice, JavaScript is told to `await` something
-These two **keywords** always come as a pair: Only an `async` function can contain `await`. What `await` means is that, instead of sending off the `fetch` and forgetting about the response back from PokeAPI, JavaScript should first `await` the `fetch` being completed and then `await` the `response` being retrieved as `json`. This means the code doesn't get ahead of itself and try to use the information before PokeAPI has sent it back! There will be more about JSON on the next card, so we're going to skip over it for now.
+JSON stands for **JavaScript Object Notation** and it's basically just bits of JavaScript used to store and send information. In the snippet above you've got an array with some to-do objects in it. Each object has a few variables with values. If you wanted to look up the `text` of the first one you could do so with `toDos[0].text`. You could look up the `completed` value of the second one with `toDos[1].completed`.
 
-Now that you can `fetch` and store one Pokémon, it's time to get a bunch of them (gotta catch 'em all!). As you might guess, this involves a `for` loop! 
+You use JSON whenever you want to store information that is somehow connected. For example, if you have a list of information about a sports team, you might want to store things like:
+  * Their name, as a text variable.
+  * Which league they play in, probably as a JSON object (you can **nest** them inside each other) with the name of the league and the URL where you can find even more JSON with the full info on the league, like a list (array) of all the teams in it. If the team is in more than one league, say a soccer team in the Premiership and the Champions' League, then you'd have an array of those league objects.
+  * An array of player objects, including things like their name, age, position, etc.
+  * A fixtures array, with the dates and times of their upcoming games and the name and URL (to the same kind of JSON object) for the team they're playing against.
+  * Maybe an array of history: which games and leagues they won and when.
 
-+ Add another function in to call your previous one, like this:
+You can see that this can quickly turn into a large set of files, linked to each other by URLs that can tell you, or your program, a lot about a subject. You could use this imaginary JSON API to make an app that showed you what matches were coming up this weekend and how those teams had fared when they played in the past. Or one that ranked all the teams in the league by things like wins/losses, score, number of players, etc. Notice that you're getting a lot more information than you're using in those apps, but that's normal with JSON that some other service is providing: They don't know exactly what kind of website or app you're building, so they give you _lots_ of info!
 
-```JavaScript
-  async function fetchManyPokemon(pokemonCount) {
-    for(var i = 1; i <= pokemonCount; i++){
-      await fetchPokemon(i)
-    }
-  }
-```
+Now it's time to take a look at the JSON PokeAPI is sending you. Check out [dojo.soy/bulbasaur](http://dojo.soy/bulbasaur). I've pasted the JSON for Bulbasaur (Pokémon #1) into this online JSON viewer to make things a bit more readable for you. On the left, you can see the 9081 lines that make up the Bulbasaur JSON. On the right, you can see that as a tree you can click into, which a human being has a better chance of understanding! What's important to learn here is that you don't need to understand all of the JSON to use some of it. **I have not read all of Bulbasaur's file, and I never will.** However, I've written a program that uses it, and you're in the process of doing the same! Since you'll be storing this info in your program, technically, if you get 150 pokemon in there, you'll have over a million lines of code in your program!
 
-Notice that, because you're fetching Pokémon by their IDs, which start from `1`, your `for` loop needs to start from `1` instead of the usual `0`.
-
-+ Next, you need to get the image for the Pokémon, download it into JavaScript (this bit is unusual, but you'll see why later!) and store it in an array. The function to get a single Pokémon image, given the information about it that you've stored in `pokemonInfo` looks like this:
-
-  ```JavaScript
-  async function fetchPokemonImage(pokemonInfo) {
-    var imageUrl = pokemonInfo.sprites.front_default
-    
-    var imageResponse = await fetch(imageUrl)
-    var image = await imageResponse.blob()
-    
-    var base64 = await getBase64(image)
-    
-    pokePics.push(base64)
-  }
-  ```
-
-What this does is get the **URL** the image is living at (PokeAPI gave you that as part of the response, earlier), then, just like `fetchPokemon`, it will `fetch` the response (see that it's `await`-ing it again!) and then take the `blob` of the response. Image files, like the `.png` files you're getting here, are `blob` files. What this means, basically, is that they're not text files.
-
-+ Now that you can `fetch` one image, you want to do the same for every Pokémon you've got. Just like before, this is a `for` loop that calls your `function`, but a normal one since you're looping over an array. Notice that it's using `await` again, since there's a `fetch` inside the function it's calling. Also, notice that the **parameter** passed to `fetchPokemonImage` is one value from `pokemonInfo`, selected based on the value of `i` and that you can do all of that in one line to save yourself creating a **variable** you'd only use once.
-
-```JavaScript
-  async function fetchPokemonImages() {
-    for(var i = 0; i < pokemonInfo.length; i++){
-      await fetchPokemonImage(pokemonInfo[i])
-    }
-  }
-```
-
-+ Now, wrap all the fetching functions you've written up into one called `getPokemon`, like this:
-
-```JavaScript
-  async function getPokemon(pokemonCount){
-      pokemon = []
-      await fetchManyPokemon(pokemonCount)
-      await fetchPokemonImages()
-  }
-```
-
-+ Finally, for this card, you need to create a `function` that will call your other functions and display some output so you can check everything worked. Since your other functions are `async`, this one has to be too, and has to `await` them. 
-
-+ Add this at the very bottom of your file and then run it:
-
-```JavaScript
-  async function buildDex(pokemonCount){
-    await getPokemon(pokemonCount)
-    
-    var display =  document.getElementById("display")
-    display.innerHTML = ""
-    var image = document.createElement("img")
-    image.src = pokePics[0]
-  }
-
-  buildDex(1)
-```
-
-If everything worked there should be a bit of a wait while the information gets loaded and then you'll see a picture of a Pokémon!
+On the next card, you're going to create a simpler JSON object for a Pokémon: a handful of lines that you can use to store and retrieve the information you really need.

@@ -1,72 +1,86 @@
-## Saving your Pokémon
+## Displaying Pokémon
 
-You can now make your own Pokémon objects, containing all the information you think is important about a Pokémon. However, you might have noticed that it takes a few seconds for the page to load every time it refreshes. 
+Now that you have a list of Pokémon and they're saved and quick to reload, it's time to start working on displaying them! This is mostly about creating HTML **elements** with the content from your Pokémon objects in them. It would be helpful to have completed some of the HTML/CSS Sushi Cards, but if you haven't don't worry, this isn't really the same as writing HTML. This is telling JavaScript to do it for you! 
 
-+ To really get an idea of this, change the call to `buildDex` so it's got a larger value for `pokemonCount` passed to it. Try `buildDex(10)` and see how long that takes. 
+I've already provided some **CSS** that will handle laying things out for you, as well as the bits of a HTML **form** that you'll need later.
 
-It's because the code has to go off and fetch the info from PokeAPI every time the page loads. Wouldn't it be nice to store that information so you didn't have to wait? You can do that! You can use **JavaScript** to store the info and pictures on the user's computer so that once they've downloaded them the first time they don't have to wait for them again! You'll do this using a part of **JavaScript** called `localStorage`.
+--- task ---
+Now, create a function that will let you create a detailed display of any Pokémon you pass it. 
 
-What you want the code to do here is:
-  * Check if there are already saved Pokémon and if there are enough of them to match `pokemonCount` (more is fine!)
-  * If yes:
-    * Great! Use those Pokémon!
-  * If no:
-    * Fetch the Pokémon info
-    * Fetch the Pokémon pictures
-    * Make the Pokémon **objects**
-    * Save them, so you can use them next time
+You're going to be creating a HTML element called a `figure` with an `img` (image) element and a `figcaption` (figure caption) element inside it. Your image will, naturally, be the picture of the Pokémon. The caption will be the name. 
 
-A lot of that looks like the code in `getPokemon` right now. In fact, this is basically what you want `getPokemon` to do: give you Pokemon. It should figure out how to get them and send them back, no matter where it found them. 
+**I've included comments here for you to read (the lines starting with `//`) but you don't need to copy them into your code**. They're just there to explain what's happening, as this is more complex than HTML creation you may have seen before. It's long, but it's just doing very similar things — creating HTML elements, setting some properties on them and placing them inside each other. Of course, it does that a few times! 
 
-+ Let's start by wrapping the existing code in an `if` statement that tests for saved Pokémon (we'll worry about the count and saving parts in the next few steps):
+```JavaScript
+  function makePokemonHTML(pokemon) {
+    // Create a figure element
+    var figure = document.createElement("figure");
+    
+    // Give the figure an id based on the Pokémon's id
+    // you can use this to select the figure later
+    // notice that .toString() is used to convert the number to a string
+    figure.id = "pokemon-"+pokemon.id.toString();
+    
+    // Create an img (image) element
+    var image = document.createElement("img");
+    
+    // Set the src (source) of that element to be the image of the Pokémon
+    image.src = pokemon.image;
+    
+    // Create a figcaption element
+    var caption = document.createElement("figcaption");
+    
+    // Create a TextNode (piece of text) that includes the name of the Pokémon
+    var pokeName = document.createTextNode("#"+pokemon.id+": "+pokemon.name);
 
-  ```JavaScript
-  async function getPokemon(pokemonCount){
-    if(localStorage.getItem("pokemon") === null) {
-      pokemon = []
-      await fetchManyPokemon(pokemonCount)
-      await fetchPokemonImages()
-      await makePokemonList(pokemonCount)
-      // save the pokemon list
+    // Put the "pokeName" TextNode inside the "caption" figcaption tag
+    caption.appendChild(pokeName);
+    
+    // Put the "image" img tag inside the "figure" figure tag
+    figure.appendChild(image);
+
+    // Put the "caption" figcaption tag inside the "figure" figure tag
+    figure.appendChild(caption);
+    
+    // Hand back the completed piece of HTML
+    return figure;
+  }
+```
+--- /task ---
+
+--- task ---
+Now create a function that will loop through the Pokémon you've got and make HTML for each of them, appending it to the displayed list of Pokémon each time. This one's a bit simpler, but I've still included some comments to help. Again, you don't need to include them in your own code!
+
+```JavaScript
+  function displayPokemonList() {
+    // Select the HTML tag with the id "display"
+    // This is a tag I made for you and included in index.html
+    var display =  document.getElementById("display");
+    
+    // Set all the HTML inside that tag to the empty string
+    // that is, delete it.
+    display.innerHTML = "";
+    
+    // For each Pokémon in the pokemon array,
+    // make HTML using makePokemonHTML and then
+    // put that HTML inside the display tag.
+    // Note that the appendChild function will put the latest tag
+    // in last. So they'll appear in the order they are in
+    // in the pokemon array.
+    for(var i = 0; i < pokemon.length; i++) {
+      display.appendChild(makePokemonHTML(pokemon[i]));
     }
-    else {
-      // get the pokemon list
-    }
-  }
-  ```
-
-The only part of this code that should look new to you is `localStorage.getItem("pokemon") === null`. This is **calling** the `getItem` `function` of `localStorage`, which comes built into **JavaScript**, and asking if it has an item called "pokemon". If it does, it will return that item. If it doesn't, it will return `null`, a special value that basically means "nothing". The three equals signs (`===`), you may remember, are how we check that two things are the same. So, if there is no value for "pokemon" stored in `localStorage` then **JavaScript** will **return** `null` and the test will pass, running the code to `fetch` and create your Pokémon. Otherwise, the `else` block runs… we'd better fill that in!
-
-`localStorage` isn't as clever as the rest of **JavaScript**; it can only store text **strings**. Since your Pokemon are complex **objects**, and you have a whole **array** of them, that's a problem. However, you've already seen the solution! **JSON** is JavaScript Object Notation, specifically made to store complex **JavaScript** **objects** as **strings**. 
-
-+ Thankfully, it's really easy to turn an **object** into **JSON** and back. You just need to add one line into the `if` statement to save the Pokémon list, like so:
-
-```JavaScript
-  if(localStorage.getItem("pokemon") === null) {
-    pokemon = []
-    await fetchManyPokemon(pokemonCount)
-    await fetchPokemonImages()
-    await makePokemonList(pokemonCount)
-    localStorage.setItem("pokemon", JSON.stringify(pokemon))
   }
 ```
-  
-This line **sets** the value **returned** by `JSON.stringify(pokemon)` as associated with the **key** `"pokemon"` in `localStorage`. As you might guess, `JSON.stringify()` turns the object passed to it into a **JSON** **string**!
+--- /task ---
 
-+ Now you need to get those values back, if they already exist, and store them in the `pokemon` **array**, which is where the rest of your code will be looking for them. Notice how filling the same **array** in either situation means that only the `getPokemon` `function` needs to care about where the Pokémon are coming from! As you may have guessed, this is another quick call to `localStorage` and `JSON`. This time, it's `localStorage.getItem()` to **get** what you **set** previously and, once you've got it, `JSON.parse()` to turn it back into an **object**.
+--- task ---
+Finally, replace the code you've got for displaying a single Pokémon in `buildDex` with code that calls `displayPokemonList` like so:
 
 ```JavaScript
-  else {
-    pokemon = JSON.parse(localStorage.getItem("pokemon"))
+  async function buildDex(pokemonCount){
+    await getPokemon(pokemonCount);
+    displayPokemonList();
   }
 ```
-
-+ Finally, you need to add the check for the situation where you have three Pokémon stored, change the call to `getDex(15)`, and still just get three Pokémon back! Right now, the `if` is just checking that there are *any* stored and, if so, jumping to the `else` of just using them. You need to add a check where first it checks for *any* and then for *at least* the right number. What that actually means is checking that the length of the stored **array** is not less than the value of `pokemonCount`. Update the `if` statement to do that like so:
-
-```JavaScript
-  if(localStorage.getItem("pokemon") === null || JSON.parse(localStorage.getItem("pokemon")).length < pokemonCount) {
-```
-
-Remember that `||` (or) means that if the condition on either side is `true` then the whole statement counts as `true`. Likewise, `&&` (and) means that both conditions need to be `true` for the statement to count as `true`.
-
-Now watch how fast the page loads, once it's had a chance to save the Pokémon!
+--- /task ---

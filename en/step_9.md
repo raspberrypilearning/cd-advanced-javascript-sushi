@@ -1,34 +1,25 @@
-## Searching Pokémon
+## Challenges!
 
-Now you can filter to all the fire types, or whatever types you like (but fire types are the coolest, right? Charizard is awesome). Time to let your users search for their favourite Pokémon! 
+Here are a few ideas on where you could take the project next, if you want to keep working on it. Pick one that interests you and give it a try! If you get stuck, try asking a more experienced coder or searching online.
 
-+ This means connecting up the text box and the button I've included on the page for you. Their `id`s are `pokemon-name` and `pokemon-name-button`. The code just needs to listen for clicks on the button, take the `value` in `pokemon-name` and compare it to the `name` property of every Pokémon, to see if that name *contains* it, rather than perfectly matches it. So searching for “saur” should find bulbasaur, ivysaur and venusaur. You can test that using `.includes("saur")` on the **string** you're checking. That search function looks like this:
+### Pick a different starting point
+Start your list somewhere else in the Pokédex, say from number 100.
 
-```JavaScript
-  function searchDex(event) {
-    event.preventDefault()
-    var searchText = document.getElementById("pokemon-name").value
-    for(var i=0; i < pokemon.length; i++){
-      var fig = document.getElementById("pokemon-"+pokemon[i].id.toString())
-      if(pokemon[i].name.includes(searchText)){
-        fig.style.display = "initial"
-      }
-      else {
-        fig.style.display = "none"
-      }
-    }
-  }
-```
+--- hints ---
+--- hint ---
+You'll need to take a new input — the starting position in the list of all Pokémon — and use it and the number of Pokémon you want to work out the right ids.
+--- /hint ---
+--- hint ---
+You'll need to update the `localStorage` code to check for not just the right number of Pokémon, but also the right ids. You can be clever, though. You don't have to check all of them!
+--- /hint ---
+--- hint ---
+You should only need to make changes to two functions: `getPokemon` and `fetchManyPokemon`.
+--- /hint ---
+--- /hints ---
 
-+ The last thing you need to do is connect it up to the click listener. There's not really a great place to do that in the code, so just stick it in the end of `buildDex`, since it's part of setting up the page. Like this:
 
-```JavaScript
-  async function buildDex(pokemonCount){
-    await getPokemon(pokemonCount)
-    displayPokemonList()
-    createTypePicker()
-    document.getElementById("pokemon-name-button").addEventListener("click",searchDex)
-  }
-```
+* Speed up increasing the list size. Right now every Pokémon is re-loaded to `localStorage` if you add one. How can you be smarter about that?
 
-That's it! You've got a fully working Pokédex! Check out the next card for some ideas on how you can improve the project on your own.
+* Right now, the two filters don't work together. So if you filter to “flying” and search for “char” you find all three “char” Pokémon instead of just Charizard, the only one with the “flying” type. Fix that!
+
+* Try adding more filters, using the **JSON** viewer from the “What is JSON?” card to pick some interesting values and creating some filters based on them like on the “Filtering Pokémon” card.
