@@ -1,37 +1,83 @@
-## What is JSON?
+## Changing the page with JavaScript
 
-As proimsed, this step will look at **JSON**. You won't be writing any actual code here, just learning about this very important part of JavaScript. If you've already done the Intermediate JavaScript Sushi, you've worked with JSON before and even created some.
+Ultimately, you're going to create a collection of 'cards' that contain information about all the coutries in the world (don't worry, you won't have to type it in!), but you're going to start off with something a bit simpler: making one card. This is often how programmers approach a project —  break it down into small pieces and solve those, then put the pieces together to solve the problem as a whole. You'll see that approach a few times in this project.
 
-So let's look at some from the Intermediate cards first:
+To begin with, you need to create a `div` inside the `card-container` `div` that already exists on the page. 
 
-```JavaScript
-var toDos =   [
-                {
-                  text: "My",
-                  completed: false
-                },
-                {
-                  text: "to-do",
-                  completed: true
-                },
-                {
-                  text: "list",
-                  completed: true
-                }
-              ]
+--- task ---
+In `script.js` create a function called `makeCard` to create a `div` and return it, like this:
+
+```javascript
+function makeCard() {
+    var card = document.createElement("div");
+    
+    return card;
+}
+```
+--- /task ---
+
+--- task ---
+Now create a `displayCountries` function that calls `makeCard` and appends the result to `card-container`:
+
+```javascript
+function displayCountries() {
+    var cardContainer = document.getElementById("card-container");
+
+    cardContainer.appendChild(makeCard());
+}
+```
+--- /task --- 
+
+--- collapse ---
+---
+title: Parents and children in HTML
+---
+You might have wondered about the `appendChild` function we used a moment ago — specifically where children come into all of this. It's just a way of discussing the relationship between different HTML elements. Elements inside another element are its children, and it is their parent. For example:
+
+```html
+<p>
+    Hello everyone and welcome to my website! My name is <strong>Alex</strong> and you can find all of <a href="dev.html">my web developement projects</a> on the site. 
+</p>
 ```
 
-JSON stands for **JavaScript Object Notation** and it's basically just bits of JavaScript used to store and send information. In the snippet above you've got an array with some to-do objects in it. Each object has a few variables with values. If you wanted to look up the `text` of the first one you could do so with `toDos[0].text`. You could look up the `completed` value of the second one with `toDos[1].completed`.
+The paragraph (`<p>`) tag is the **parent** of the strong (`<strong>`) and anchor/link (`<a>`) tags and they are its **children**.
 
-You use JSON whenever you want to store information that is somehow connected. For example, if you have a list of information about a sports team, you might want to store things like:
-  * Their name, as a text variable.
-  * Which league they play in, probably as a JSON object (you can **nest** them inside each other) with the name of the league and the URL where you can find even more JSON with the full info on the league, like a list (array) of all the teams in it. If the team is in more than one league, say a soccer team in the Premiership and the Champions' League, then you'd have an array of those league objects.
-  * An array of player objects, including things like their name, age, position, etc.
-  * A fixtures array, with the dates and times of their upcoming games and the name and URL (to the same kind of JSON object) for the team they're playing against.
-  * Maybe an array of history: which games and leagues they won and when.
+--- /collapse ---
 
-You can see that this can quickly turn into a large set of files, linked to each other by URLs that can tell you, or your program, a lot about a subject. You could use this imaginary JSON API to make an app that showed you what matches were coming up this weekend and how those teams had fared when they played in the past. Or one that ranked all the teams in the league by things like wins/losses, score, number of players, etc. Notice that you're getting a lot more information than you're using in those apps, but that's normal with JSON that some other service is providing: They don't know exactly what kind of website or app you're building, so they give you _lots_ of info!
+--- task ---
+Finally, at the bottom of `script.js`, add a line that calls `displayCountries` when `script.js` is loaded by the webpage:
+```javascript
+displayCountries();
+```
+--- /task ---
 
-Now it's time to take a look at the JSON PokeAPI is sending you. Check out [dojo.soy/bulbasaur](http://dojo.soy/bulbasaur). I've pasted the JSON for Bulbasaur (Pokémon #1) into this online JSON viewer to make things a bit more readable for you. On the left, you can see the 9081 lines that make up the Bulbasaur JSON. On the right, you can see that as a tree you can click into, which a human being has a better chance of understanding! What's important to learn here is that you don't need to understand all of the JSON to use some of it. **I have not read all of Bulbasaur's file, and I never will.** However, I've written a program that uses it, and you're in the process of doing the same! Since you'll be storing this info in your program, technically, if you get 150 pokemon in there, you'll have over a million lines of code in your program!
+When your page reloads, you may notice that nothing has visibly happened. That's because your new div is completely invisible: there's nothing in it and it has no styling.
 
-On the next card, you're going to create a simpler JSON object for a Pokémon: a handful of lines that you can use to store and retrieve the information you really need.
+--- task ---
+Create some basic styling for your card by creating a class in `style.css` with a few properties, like this:
+
+```css
+.item-card {
+    background-color: lightblue;
+    border-radius: 25%;
+    margin-top: 10px;
+    padding: 30px;
+    text-align: center;
+    width: 300px;
+}
+```
+--- /task ---
+
+--- task ---
+Now attach your new class to the card by adding one more line to the 'makeCard' function in `script.js` to modify the `classList` (the list of all the classes an element has) for `card` to include the item `item-card` class you just created:
+
+```javascript
+function makeCard() {
+    var card = document.createElement("div");
+    card.classList.add("item-card");
+    return card;
+}
+```
+--- /task ---
+
+Now when the page reloads you should see your card! It doesn't look like much yet, but you'll start adding content soon!

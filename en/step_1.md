@@ -1,32 +1,23 @@
 ## Introduction
 
-Since this is an advanced JavaScript project, you'll find the explanations are a bit less detailed than simpler projects,so I recommend you not choose this as a first JavaScript project. I'll be talking more about what the code does, and why, than exactly *how* it manages it. 
-
+This project will use HTML, CSS and JavaScript to create a webpage, and will assume you've already worked with each of these languages. If you haven't, please start with a project like [To-do list](#) or [Project name](#) and try this project once you feel comfortable with the three web development languages and with concepts like functions and arrays in JavaScript, in particular.
 
 ### What you will make
 
-In this project you'll be building an app to get information from an **Application Programming Interface (API)** and display it to your user. Then you'll let them filter the information too. In this case you'll be using the PokeAPI. It will let you get information about, and pictures of, Pokémon to display to your users. Once you're done, it'll look like this:
+In this project you'll be building an app to get information from an **Application Programming Interface (API)** and display it to your user. In this case you'll be getting information about different countries around the world. Once you're done, it'll look like this:
 
 <iframe src="https://trinket.io/embed/html/d4f1b11a4e?outputOnly=true" width="100%" height="600" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
 
 ### What you will learn
 
-This project covers elements from the following strands of the [Raspberry Pi Digital Making Curriculum](http://rpf.io/curriculum){:target="_blank"}:
+* Connecting to an API and fetching information
+* Using `async` and `await` to wait for a response
+* Using functions to break up code and avoid repetition
 
-+ [Apply basic programming constructs to solve a problem](https://curriculum.raspberrypi.org/programming/builder/){:target="_blank"}
 
+## What you will need
 
-## Getting Setup
-
-+ Go to [dojo.soy/js-a-start](http://dojo.soy/js-a-start). You will see a box containing an example JavaScript website project. On the right hand side is the website, and on the left hand side is the code that makes the website.
-
-+ If you have an account on Trinket, click the **Remix** button at the top right of the project \(if you are not signed in, you will be prompted to do so. Once you've signed in you will then need to click the **Remix** button again\). This creates a copy of the project for you to work with. 
-
-![Remix button](images/tktRemixButtonArrow.png)
-
-It should say "remixed" after you click it
-  
-![Button now says "remixed"](images/tktRemixedSmall.png)
+This project uses [Trinket](https://trinket.io). You can find details on using Trinket, with or without an account, below. You will need a computer with an internet connection a web browser capable of accessing Trinket. As this project relies on an API hosted on the internet, it cannot be done offline.
 
 --- collapse ---
 ---
@@ -55,5 +46,3 @@ However, having one allows you to access your work easily from any computer. It 
 !["My Trinkets" menu item](images/MyTrinketsMenuWide.png)
 
 --- /collapse ---
-
-+ You should also click on the drop-down arrow beside the **Autorun** button and select **Click To Run** instead. This makes sure that the code will only run when you click this button, not when you're halfway through typing it!

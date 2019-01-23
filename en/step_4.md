@@ -1,80 +1,58 @@
-## Making a Pokémon
+## Adding text to your webpage
 
-Now you're going to make your own JSON object. It's going to be a simple version of a Pokémon. What you're going to need to know about a Pokémon to build a basic Pokédex is listed below. I figured out this list by looking at the JSON of one Pokémon using the tool you saw on the last card.
-  * The Pokémon's id number
-  * Name of the Pokémon
-  * A picture of it
-  * Its 'types' (fire, grass, water, etc.)
-  
-The Pokémon will be a kind of object, just like the to-do was in the example from the previous step. 
-
-You can use a `function` to create and `return` an object, which lets you keep all the code related to that object neatly organised together. 
+Now that you have a card on the page, it's time to put something in it! Since these will be cards about countries, the most important thing to display is probably the name of the country, so make that a heading on the card.
 
 --- task ---
-Add this Pokémon creator function to your code:
+Update the 'makeCard' function to include making a `h2` heading, adding a country name inside it and then making that heading a child of 'card':
 
-```JavaScript
-  function Pokemon(pokemonIndex) {
-    var info = pokemonInfo[pokemonIndex];
+```javascript
+function makeCard() {
     
-    this.id = info.id;
-    this.name = info.name;
-    this.image = pokePics[pokemonIndex];
-  
-  }
+    var card = document.createElement("div");
+    card.classList.add("item-card");
+
+    var heading = document.createElement("h2");
+    var text = document.createTextNode("Ireland");
+    heading.appendChild(text);
+
+    card.appendChild(heading);
+
+    return card;
+}
 ```
 --- /task ---
 
-The code takes in the index (position in an array) of a Pokémon which it looks up and stores in the `info` variable. The `this` **keyword** is used to refer to variables attached to the specific Pokémon object you're creating. Every Pokémon will have an `id`, `name`, and `image`, so you need to refer to the specific ones attached to _this_ Pokémon. What the code does here is take the `name` and `id` from the JSON about the Pokémon and the `image` from the array (`PokePics`) of images.
+There are a couple of things to notice in this change: First, how regularly we deal with properly 'nesting' (think nesting dolls, not birds) one element inside of another and, second, how much of a pain adding text is going to be if it takes three lines of code to do it every time! 
 
-The next part is a bit trickier: A Pokémon can have more than one type, so you need to create a `types` array to store them, and then add them using a `for` loop that looks through the types in `info.types` and adds their names into `this.types`. 
+![Some colourful nesting dolls](images/nestingDolls.png)
+
+Since it's basically the same three lines — the only differences being element you're creating and what text you're putting in it — that sounds like a great bit of code to wrap up in a function.
 
 --- task ---
-Update the `function` you just wrote to add the code for types, like this:
+Crerate a 'textTag' function that will accept a HTML tag along with some text to nest inside it and return the completed element for you to work with:
 
-```JavaScript
-  function Pokemon(pokemonIndex) {
-    var info = pokemonInfo[pokemonIndex];
-    
-    this.id = info.id;
-    this.name = info.name;
-    this.image = pokePics[pokemonIndex];
-    
-    this.types = [];
-    
-    for(var i = 0; i < info.types.length; i++){
-      var type = info.types[i].type.name;
-      this.types.push(type);
-    }
-    
-  }
+```javascript
+function textTag(tagName, textContents) {
+    var tag = document.createElement(tagName);
+    var text = document.createTextNode(textContents);
+    tag.appendChild(text);
+    return tag;
+}
 ```
 --- /task ---
 
-Now that you've got a `function` to make a Pokémon object, you need another one that will make *all* the Pokémon, by calling this `function` as many times as you have Pokémon. As you can probably guess, that's another `for` loop!
-
 --- task ---
-Add this function into your file:
-```JavaScript
-  function makePokemonList(pokemonCount) {
-    for(var i = 0; i < pokemonCount; i++){
-      pokemon.push(new Pokemon(i));
-    }
-  }
-```
---- /task ---
+Now clean up your 'makeCard' function to use 'textTag':
 
-Notice how the `new` keyword is used to create a `Pokemon` object, using your `Pokemon` `function`. That `new` is telling JavaScript that the `Pokemon` function is making an object, rather than just doing series of instructions, so it will treat it a little differently. This is why the `Pokemon` object gets stored in the `pokemon` array, rather than a reference to the `Pokemon` `function`.
+```javascript
+function makeCard() {
+    
+    var card = document.createElement("div");
+    card.classList.add("item-card");
 
---- task ---
-Finally, add a call to `makePokemonList` to `getPokemon`, passing the number of Pokémon you've fetched as the value of `pokemonCount`, like this:
+    card.appendChild(textTag("h2","Ireland"));
 
-```JavaScript
-  async function getPokemon(pokemonCount){
-      pokemon = [];
-      await fetchManyPokemon(pokemonCount);
-      await fetchPokemonImages();
-      await makePokemonList(pokemonCount);
-  }
+    return card;
+}
 ```
 --- /task ---
