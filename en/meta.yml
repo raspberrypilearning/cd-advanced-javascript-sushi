@@ -1,0 +1,28 @@
+title: cd-advanced-javascript-sushi
+hero_image: images/banner.png
+description: cd-advanced-javascript-sushi description
+theme: red # possible values: blue, green, navy, orange, red, turquoise, violet, yellow
+duration: 2
+listed: false
+ingredient: false
+copyedit: false
+curriculum: 0, design-0, programming-0, phys-comp-0, manufacture-0, community-0
+interests: animals, art, humour, space, photography, outdoors, music, games
+technologies: electronic-components, sense-hat, html-css-javascript, scratch, python
+site_areas: coderdojo
+hardware: electronic-components, sense-hat
+software: html-css-javascript, scratch, python
+version: 3
+last_tested: 2019-01-24
+steps: 
+- title: Introduction
+- title: Setting up your project
+- title: Changing the page with JavaScript
+- title: Adding text to your webpage
+- title: Getting country data
+- title: Using JSON in your card
+- title: Display lots of information
+- title: Displaying multiple-items of information
+- title: Show all the countries
+- title: "Challenge: Displaying arrays better"
+  challenge: true
