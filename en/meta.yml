@@ -1,7 +1,8 @@
+---
 title: cd-advanced-javascript-sushi
 hero_image: images/banner.png
 description: cd-advanced-javascript-sushi description
-theme: red # possible values: blue, green, navy, orange, red, turquoise, violet, yellow
+theme: red
 duration: 2
 listed: false
 ingredient: false
@@ -14,7 +15,7 @@ hardware: electronic-components, sense-hat
 software: html-css-javascript, scratch, python
 version: 3
 last_tested: 2019-01-24
-steps: 
+steps:
 - title: Introduction
 - title: Setting up your project
 - title: Changing the page with JavaScript
@@ -24,5 +25,5 @@ steps:
 - title: Display lots of information
 - title: Displaying multiple-items of information
 - title: Show all the countries
-- title: "Challenge: Displaying arrays better"
+- title: 'Challenge: Displaying arrays better'
   challenge: true
